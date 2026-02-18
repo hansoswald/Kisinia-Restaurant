@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kisinia Restaurant - Ladha Bora za Kiafrika na Kimataifa. Quality African and International cuisine with delivery service." />
+  <title>Kisinia Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --red:#DC2626; --dark-red:#991B1B; --yellow:#FBBF24;
+      --light-yellow:#FEF3C7; --dark-bg:#1F2937; --light-bg:#F9FAFB;
+      --text:#111827; --muted:#6B7280; --white:#fff;
+      --shadow:0 10px 30px rgba(0,0,0,.1); --shadow-lg:0 20px 60px rgba(0,0,0,.15);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Poppins',sans-serif;color:var(--text);overflow-x:hidden;line-height:1.6;}
+
+    /* ─── NAVBAR ─── */
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);box-shadow:var(--shadow);transition:.3s;}
+    .navbar.scrolled{box-shadow:var(--shadow-lg);}
+    .nav-container{max-width:1200px;margin:0 auto;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--red);text-decoration:none;white-space:nowrap;}
+    .logo span{color:var(--yellow);}
+
+    /* hamburger */
+    .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1010;flex-shrink:0;}
+    .hamburger span{display:block;width:26px;height:3px;border-radius:2px;background:var(--red);transition:.35s;}
+    .hamburger.open span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .hamburger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+
+    /* nav menu */
+    .nav-menu{display:flex;list-style:none;align-items:center;gap:1.8rem;}
+    .nav-link{color:var(--text);text-decoration:none;font-weight:600;transition:.2s;position:relative;}
+    .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--red),var(--yellow));border-radius:2px;transition:.3s;}
+    .nav-link:hover{color:var(--red);}
+    .nav-link:hover::after{width:100%;}
+
+    /* lang button */
+    .lang-btn{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,var(--red),var(--yellow));color:var(--white);border:none;border-radius:25px;padding:.55rem 1.1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:.3s;white-space:nowrap;}
+    .lang-btn:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(220,38,38,.35);}
+
+    /* ─── HERO ─── */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--white);position:relative;overflow:hidden;padding:7rem 1.5rem 4rem;
+      background:linear-gradient(135deg,rgba(153,27,27,.88),rgba(220,38,38,.82),rgba(251,191,36,.72)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&h=900&fit=crop') center/cover no-repeat;}
+    .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 25% 60%,rgba(251,191,36,.22) 0%,transparent 55%);animation:pulse 8s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+    .hero-content{position:relative;z-index:1;max-width:860px;animation:fadeUp .9s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,7vw,4.8rem);font-weight:900;text-shadow:3px 3px 8px rgba(0,0,0,.3);margin-bottom:.8rem;}
+    .hero-tagline{font-size:clamp(1.05rem,2.8vw,1.65rem);font-weight:300;text-shadow:2px 2px 5px rgba(0,0,0,.25);margin-bottom:2.2rem;}
+    .cta-row{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;}
+
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2.2rem;font-size:1rem;font-weight:700;border-radius:50px;text-decoration:none;border:none;cursor:pointer;transition:.3s;box-shadow:var(--shadow);font-family:'Poppins',sans-serif;}
+    .btn-yellow{background:var(--yellow);color:var(--text);}
+    .btn-yellow:hover{background:var(--white);transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+    .btn-outline{background:transparent;color:var(--white);border:3px solid var(--white);}
+    .btn-outline:hover{background:var(--white);color:var(--red);transform:translateY(-3px);}
+    .btn-red{background:linear-gradient(135deg,var(--red),var(--dark-red));color:var(--white);width:100%;justify-content:center;border-radius:10px;padding:.9rem;}
+    .btn-red:hover{opacity:.9;transform:scale(1.02);}
+
+    /* ─── SECTION HELPERS ─── */
+    .section{padding:5rem 1.5rem;max-width:1200px;margin:0 auto;}
+    .bg-light{background:var(--light-bg);}
+    .bg-red{background:linear-gradient(135deg,var(--red),var(--dark-red));color:var(--white);}
+    .section-header{text-align:center;margin-bottom:3.5rem;}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,3.2rem);color:var(--red);display:inline-block;position:relative;margin-bottom:.5rem;}
+    .section-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:90px;height:4px;background:linear-gradient(90deg,var(--red),var(--yellow));border-radius:2px;}
+    .bg-red .section-title{color:var(--white);}
+    .bg-red .section-title::after{background:var(--yellow);}
+    .section-subtitle{color:var(--muted);font-size:1.05rem;max-width:580px;margin:1.4rem auto 0;}
+    .bg-red .section-subtitle{color:rgba(255,255,255,.85);}
+
+    /* ─── ABOUT ─── */
+    .about-intro{max-width:760px;margin:0 auto 3rem;text-align:center;color:var(--muted);font-size:1.05rem;}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.8rem;}
+    .feature-card{background:var(--white);border-radius:18px;padding:2rem;text-align:center;box-shadow:var(--shadow);transition:.3s;}
+    .feature-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);}
+    .feat-icon{width:76px;height:76px;border-radius:18px;margin:0 auto 1.2rem;background:linear-gradient(135deg,var(--red),var(--yellow));color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.9rem;transition:.5s;}
+    .feature-card:hover .feat-icon{transform:rotateY(360deg);}
+    .feature-card h4{color:var(--red);font-size:1.15rem;margin-bottom:.4rem;}
+    .feature-card p{color:var(--muted);font-size:.92rem;}
+
+    /* ─── MENU ─── */
+    .cat-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.8rem;}
+    .cat-btn{padding:.65rem 1.5rem;background:var(--white);border:2px solid var(--red);color:var(--red);border-radius:30px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s;font-family:'Poppins',sans-serif;}
+    .cat-btn.active,.cat-btn:hover{background:var(--red);color:var(--white);}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.8rem;}
+    .menu-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:.3s;position:relative;}
+    .menu-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);}
+    .menu-card.hidden{display:none;}
+    .menu-img{width:100%;height:225px;object-fit:cover;display:block;}
+    .badge{position:absolute;top:14px;right:14px;z-index:2;padding:.35rem .85rem;border-radius:20px;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;gap:.3rem;text-transform:uppercase;box-shadow:0 3px 10px rgba(0,0,0,.2);}
+    .badge-popular{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:var(--white);}
+    .badge-new{background:linear-gradient(135deg,#4ECDC4,#44A08D);color:var(--white);}
+    .badge-best{background:var(--yellow);color:var(--text);}
+    .card-body{padding:1.4rem;}
+    .card-row{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.6rem;}
+    .card-body h3{font-size:1.1rem;font-weight:700;line-height:1.3;}
+    .price{color:var(--red);font-size:1.25rem;font-weight:800;white-space:nowrap;}
+    .card-body p{color:var(--muted);font-size:.88rem;margin-bottom:1rem;line-height:1.5;}
+
+    /* ─── PACKAGES ─── */
+    .pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2rem;}
+    .pkg-card{background:var(--white);color:var(--text);border-radius:20px;padding:2.2rem;text-align:center;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;transition:.3s;}
+    .pkg-card:hover{transform:translateY(-8px) scale(1.02);}
+    .pkg-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--red),var(--yellow));}
+    .pkg-icon{font-size:2.4rem;color:var(--red);margin-bottom:.8rem;}
+    .pkg-card h3{font-size:1.5rem;color:var(--red);margin-bottom:.6rem;}
+    .pkg-price{font-size:2.1rem;font-weight:900;color:var(--yellow);margin-bottom:1.4rem;}
+    .pkg-features{list-style:none;text-align:left;margin-bottom:1.8rem;}
+    .pkg-features li{padding:.55rem 0;border-bottom:1px solid var(--light-bg);display:flex;align-items:center;gap:.7rem;font-size:.93rem;}
+    .pkg-features li i{color:var(--yellow);font-size:.9rem;flex-shrink:0;}
+
+    /* ─── DELIVERY ─── */
+    .delivery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:2rem;}
+    .del-card{background:var(--white);border-radius:18px;padding:2.2rem;box-shadow:var(--shadow);}
+    .del-card h3{color:var(--red);font-size:1.45rem;margin-bottom:1.4rem;}
+    .info-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem;padding:.9rem;background:var(--light-bg);border-radius:12px;}
+    .info-ico{width:50px;height:50px;flex-shrink:0;border-radius:12px;background:linear-gradient(135deg,var(--red),var(--yellow));color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.25rem;}
+    .info-row strong{display:block;color:var(--red);margin-bottom:.15rem;font-size:.92rem;}
+    .info-row span{font-size:.88rem;color:var(--muted);}
+
+    /* ─── STATS ─── */
+    .stats-wrap{background:linear-gradient(135deg,var(--red),var(--dark-red));padding:4rem 1.5rem;}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:2.5rem;max-width:1100px;margin:0 auto;text-align:center;color:var(--white);}
+    .stat-icon{font-size:2.5rem;margin-bottom:.7rem;opacity:.9;}
+    .stat-num{font-family:'Playfair Display',serif;font-size:2.7rem;font-weight:900;}
+    .stat-lbl{font-size:.95rem;opacity:.9;}
+
+    /* ─── TESTIMONIALS ─── */
+    .testi-wrap{background:linear-gradient(135deg,rgba(220,38,38,.04),rgba(251,191,36,.06));padding:5rem 1.5rem;}
+    .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:1200px;margin:0 auto;}
+    .testi-card{background:var(--white);border-radius:18px;padding:2rem;box-shadow:var(--shadow);position:relative;transition:.3s;}
+    .testi-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+    .testi-card::before{content:'"';position:absolute;top:-8px;left:18px;font-size:5rem;font-family:'Playfair Display',serif;color:var(--yellow);opacity:.22;line-height:1;}
+    .testi-text{font-style:italic;color:var(--muted);margin-bottom:1.3rem;line-height:1.7;font-size:.95rem;}
+    .testi-author{display:flex;align-items:center;gap:1rem;}
+    .avatar{width:46px;height:46px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--red),var(--yellow));color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;}
+    .author-name{font-weight:600;font-size:.93rem;}
+    .stars{color:var(--yellow);font-size:.82rem;margin-top:.1rem;}
+
+    /* ─── FOOTER ─── */
+    footer{background:var(--dark-bg);color:var(--white);padding:4rem 1.5rem 2rem;}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2.5rem;max-width:1200px;margin:0 auto 2.5rem;}
+    .footer-col h3{color:var(--yellow);font-size:1.25rem;margin-bottom:1.1rem;}
+    .footer-col p{color:rgba(255,255,255,.72);font-size:.91rem;margin-bottom:.55rem;}
+    .footer-link{display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.75);text-decoration:none;font-size:.91rem;margin-bottom:.85rem;transition:.2s;}
+    .footer-link:hover{color:var(--yellow);}
+    .footer-link i{width:16px;text-align:center;color:var(--yellow);}
+    .socials{display:flex;gap:.8rem;margin-top:1.2rem;}
+    .soc-btn{width:42px;height:42px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;transition:.3s;}
+    .soc-btn:hover{background:var(--yellow);color:var(--text);transform:translateY(-4px);}
+    .footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem;color:rgba(255,255,255,.48);font-size:.86rem;}
+    .footer-bottom a{color:var(--yellow);text-decoration:none;}
+
+    /* ─── FLOAT WHATSAPP ─── */
+    .wa-float{position:fixed;bottom:28px;right:28px;z-index:998;width:58px;height:58px;border-radius:50%;background:#25D366;color:var(--white);font-size:1.8rem;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 5px 20px rgba(37,211,102,.5);animation:bob 3s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    .wa-float:hover{transform:scale(1.12)!important;box-shadow:0 8px 28px rgba(37,211,102,.65);animation:none;}
+
+    /* ─── REVEAL ─── */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:768px){
+      .hamburger{display:flex;}
+
+      .nav-menu{
+        display:flex;flex-direction:column;align-items:stretch;
+        position:fixed;top:0;left:0;right:0;
+        background:var(--white);padding:5rem 2rem 2rem;
+        box-shadow:var(--shadow-lg);z-index:1005;gap:1rem;
+        /* hidden state */
+        clip-path:inset(0 0 100% 0);
+        transition:clip-path .4s ease;
+        pointer-events:none;
+      }
+      .nav-menu.open{
+        clip-path:inset(0 0 0% 0);
+        pointer-events:all;
+      }
+      .nav-link{font-size:1.1rem;padding:.65rem 0;border-bottom:1px solid var(--light-bg);}
+      .lang-btn{justify-content:center;padding:.85rem;}
+      .cta-row{flex-direction:column;align-items:center;}
+      .btn{width:100%;max-width:320px;justify-content:center;}
+      .section{padding:3rem 1rem;}
+      .wa-float{bottom:18px;right:18px;width:52px;height:52px;font-size:1.5rem;}
+    }
+    @media(max-width:480px){
+      .nav-container{padding:.8rem 1rem;}
+      .logo{font-size:1.25rem;}
+      .menu-grid,.pkg-grid,.delivery-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ NAVBAR ════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="logo" href="#home">Kisinia <span>Restaurant</span></a>
+
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a class="nav-link" href="#home"     data-i18n="nav_home">Home</a></li>
+      <li><a class="nav-link" href="#about"    data-i18n="nav_about">About</a></li>
+      <li><a class="nav-link" href="#menu"     data-i18n="nav_menu">Menu</a></li>
+      <li><a class="nav-link" href="#packages" data-i18n="nav_packages">Packages</a></li>
+      <li><a class="nav-link" href="#delivery" data-i18n="nav_delivery">Delivery</a></li>
+      <li><a class="nav-link" href="#contact"  data-i18n="nav_contact">Contact</a></li>
+      <li>
+        <button class="lang-btn" id="langBtn">
+          <i class="fas fa-globe"></i>
+          <span id="langLabel">Swahili</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <h1 data-i18n="hero_title">Karibu Kisinia Restaurant</h1>
+    <p class="hero-tagline" data-i18n="hero_tagline">The Best African &amp; International Flavors</p>
+    <div class="cta-row">
+      <a class="btn btn-yellow" href="#menu"><i class="fas fa-utensils"></i> <span data-i18n="btn_view_menu">View Menu</span></a>
+      <a class="btn btn-outline" href="https://wa.me/255123456789?text=Habari!%20Napenda%20kuorder%20kutoka%20Kisinia%20Restaurant" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_now">Order Now</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ABOUT ════ -->
+<div class="bg-light">
+<section id="about" class="section">
+  <div class="section-header">
+    <h2 class="section-title" data-i18n="about_title">About Us</h2>
+    <p class="section-subtitle" data-i18n="about_subtitle">Quality food, exceptional service, delivered daily</p>
+  </div>
+  <p class="about-intro reveal" data-i18n="about_body">At Kisinia Restaurant, we pride ourselves on serving the finest African and International cuisine with authentic flavors that remind you of home. Our skilled chefs prepare each dish with care, using fresh local ingredients and traditional recipes passed down through generations.</p>
+  <div class="features">
+    <div class="feature-card reveal">
+      <div class="feat-icon"><i class="fas fa-certificate"></i></div>
+      <h4 data-i18n="feat1_title">Quality Food</h4>
+      <p data-i18n="feat1_body">Fresh ingredients, authentic recipes, expertly prepared every day.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon"><i class="fas fa-clock"></i></div>
+      <h4 data-i18n="feat2_title">Open Daily</h4>
+      <p data-i18n="feat2_body">Serving you 7 days a week from 10:00 AM – 10:00 PM.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon"><i class="fas fa-shipping-fast"></i></div>
+      <h4 data-i18n="feat3_title">Fast Delivery</h4>
+      <p data-i18n="feat3_body">Quick and reliable delivery straight to your doorstep.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon"><i class="fas fa-heart"></i></div>
+      <h4 data-i18n="feat4_title">Made with Love</h4>
+      <p data-i18n="feat4_body">Every dish crafted with passion and traditional care.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ════ MENU ════ -->
+<section id="menu" class="section">
+  <div class="section-header">
+    <h2 class="section-title" data-i18n="menu_title">Our Menu</h2>
+    <p class="section-subtitle" data-i18n="menu_subtitle">Explore our delicious selection of meals</p>
+  </div>
+  <div class="cat-row">
+    <button class="cat-btn active" data-cat="all"     data-i18n="cat_all">All Items</button>
+    <button class="cat-btn"        data-cat="watu2"   data-i18n="cat_watu2">Watu 2</button>
+    <button class="cat-btn"        data-cat="watu34"  data-i18n="cat_watu34">Watu 3–4</button>
+    <button class="cat-btn"        data-cat="mbuzi"   data-i18n="cat_mbuzi">Mbuzi Menu</button>
+    <button class="cat-btn"        data-cat="special" data-i18n="cat_special">Special Dishes</button>
+    <button class="cat-btn"        data-cat="drinks"  data-i18n="cat_drinks">Drinks</button>
+  </div>
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="menu-card reveal" data-cat="watu2">
+      <span class="badge badge-popular"><i class="fas fa-fire"></i> <span data-i18n="badge_popular">Popular</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=280&fit=crop" alt="Wali na Kuku" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m1_name">Wali na Kuku</h3><span class="price">TSh 25,000</span></div>
+        <p data-i18n="m1_desc">Steamed rice with tender chicken, fresh vegetables and special sauce.</p>
+        <button class="btn btn-red" onclick="orderWA('Wali na Kuku - TSh 25,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="watu2">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&h=280&fit=crop" alt="Ugali na Nyama" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m2_name">Ugali na Nyama</h3><span class="price">TSh 22,000</span></div>
+        <p data-i18n="m2_desc">Traditional ugali with grilled beef, served with vegetable stew.</p>
+        <button class="btn btn-red" onclick="orderWA('Ugali na Nyama - TSh 22,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="watu34">
+      <span class="badge badge-best"><i class="fas fa-star"></i> <span data-i18n="badge_best">Best Seller</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=280&fit=crop" alt="Pilau na Nyama" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m3_name">Pilau na Nyama</h3><span class="price">TSh 45,000</span></div>
+        <p data-i18n="m3_desc">Aromatic spiced rice with tender meat, perfect for sharing.</p>
+        <button class="btn btn-red" onclick="orderWA('Pilau na Nyama - TSh 45,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="watu34">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=280&fit=crop" alt="Wali wa Nazi na Samaki" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m4_name">Wali wa Nazi na Samaki</h3><span class="price">TSh 48,000</span></div>
+        <p data-i18n="m4_desc">Coconut rice with fresh grilled fish, served with kachumbari.</p>
+        <button class="btn btn-red" onclick="orderWA('Wali wa Nazi na Samaki - TSh 48,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="mbuzi">
+      <span class="badge badge-popular"><i class="fas fa-fire"></i> <span data-i18n="badge_popular">Popular</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&h=280&fit=crop" alt="Mbuzi Choma" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m5_name">Mbuzi Choma (1kg)</h3><span class="price">TSh 35,000</span></div>
+        <p data-i18n="m5_desc">Expertly grilled goat meat, tender and flavorful with traditional spices.</p>
+        <button class="btn btn-red" onclick="orderWA('Mbuzi Choma 1kg - TSh 35,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="mbuzi">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=280&fit=crop" alt="Mchuzi wa Mbuzi" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m6_name">Mchuzi wa Mbuzi</h3><span class="price">TSh 32,000</span></div>
+        <p data-i18n="m6_desc">Rich goat stew cooked in aromatic spices, served with your choice of starch.</p>
+        <button class="btn btn-red" onclick="orderWA('Mchuzi wa Mbuzi - TSh 32,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="special">
+      <span class="badge badge-new"><i class="fas fa-wand-sparkles"></i> <span data-i18n="badge_chef">Chef Special</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=280&fit=crop" alt="Biryani Special" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m7_name">Biryani Special</h3><span class="price">TSh 28,000</span></div>
+        <p data-i18n="m7_desc">Fragrant layered rice with spiced meat, aromatic herbs and raita.</p>
+        <button class="btn btn-red" onclick="orderWA('Biryani Special - TSh 28,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="special">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=280&fit=crop" alt="Ndizi na Nyama" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m8_name">Ndizi na Nyama</h3><span class="price">TSh 24,000</span></div>
+        <p data-i18n="m8_desc">Traditional East African plantains cooked with tender beef.</p>
+        <button class="btn btn-red" onclick="orderWA('Ndizi na Nyama - TSh 24,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="special">
+      <span class="badge badge-popular"><i class="fas fa-fire"></i> <span data-i18n="badge_popular">Popular</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=280&fit=crop" alt="Chips Mayai" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m9_name">Chips Mayai Special</h3><span class="price">TSh 15,000</span></div>
+        <p data-i18n="m9_desc">Tanzanian classic — french fries mixed with eggs and spices.</p>
+        <button class="btn btn-red" onclick="orderWA('Chips Mayai Special - TSh 15,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="drinks">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1546173159-315724a31696?w=400&h=280&fit=crop" alt="Fresh Juices" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m10_name">Fresh Juices</h3><span class="price">TSh 5,000</span></div>
+        <p data-i18n="m10_desc">Freshly squeezed passion fruit, orange, or watermelon juice.</p>
+        <button class="btn btn-red" onclick="orderWA('Fresh Juice - TSh 5,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="drinks">
+      <img class="menu-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=280&fit=crop" alt="Soft Drinks" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m11_name">Soft Drinks</h3><span class="price">TSh 2,500</span></div>
+        <p data-i18n="m11_desc">Coca-Cola, Fanta, Sprite and other popular beverages.</p>
+        <button class="btn btn-red" onclick="orderWA('Soft Drink - TSh 2,500')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+    <div class="menu-card reveal" data-cat="drinks">
+      <span class="badge badge-new"><i class="fas fa-wand-sparkles"></i> <span data-i18n="badge_new">New</span></span>
+      <img class="menu-img" src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400&h=280&fit=crop" alt="Chai Tangawizi" loading="lazy">
+      <div class="card-body">
+        <div class="card-row"><h3 data-i18n="m12_name">Chai Tangawizi</h3><span class="price">TSh 3,000</span></div>
+        <p data-i18n="m12_desc">Traditional Swahili spiced tea with ginger and aromatic spices.</p>
+        <button class="btn btn-red" onclick="orderWA('Chai Tangawizi - TSh 3,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa">Order via WhatsApp</span></button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════ PACKAGES ════ -->
+<div class="bg-red">
+<section id="packages" class="section">
+  <div class="section-header">
+    <h2 class="section-title" data-i18n="pkg_title">Special Packages</h2>
+    <p class="section-subtitle" data-i18n="pkg_subtitle">Perfect for groups, events &amp; celebrations</p>
+  </div>
+  <div class="pkg-grid">
+
+    <div class="pkg-card reveal">
+      <div class="pkg-icon"><i class="fas fa-users"></i></div>
+      <h3 data-i18n="pkg1_name">Family Package</h3>
+      <div class="pkg-price">TSh 85,000</div>
+      <ul class="pkg-features">
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg1_f1">Pilau for 6 people</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg1_f2">2kg Nyama Choma</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg1_f3">Kachumbari &amp; Salads</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg1_f4">6 Soft Drinks</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg1_f5">Free Delivery</span></li>
+      </ul>
+      <button class="btn btn-yellow" onclick="orderWA('Family Package - TSh 85,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_pkg">Order Package</span></button>
+    </div>
+
+    <div class="pkg-card reveal">
+      <div class="pkg-icon"><i class="fas fa-utensils"></i></div>
+      <h3 data-i18n="pkg2_name">Group Feast</h3>
+      <div class="pkg-price">TSh 150,000</div>
+      <ul class="pkg-features">
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f1">Biryani for 10 people</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f2">3kg Mbuzi Choma</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f3">Mixed Vegetables</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f4">10 Fresh Juices</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f5">Dessert Included</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg2_f6">Free Delivery</span></li>
+      </ul>
+      <button class="btn btn-yellow" onclick="orderWA('Group Feast - TSh 150,000')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_pkg">Order Package</span></button>
+    </div>
+
+    <div class="pkg-card reveal">
+      <div class="pkg-icon"><i class="fas fa-calendar-alt"></i></div>
+      <h3 data-i18n="pkg3_name">Event Catering</h3>
+      <div class="pkg-price">TSh 280,000+</div>
+      <ul class="pkg-features">
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f1">Customized Menu</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f2">20+ Guests</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f3">Professional Service</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f4">Multiple Courses</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f5">Beverages Included</span></li>
+        <li><i class="fas fa-check-circle"></i><span data-i18n="pkg3_f6">Setup &amp; Cleanup</span></li>
+      </ul>
+      <button class="btn btn-yellow" onclick="orderWA('Event Catering - Custom Quote')"><i class="fab fa-whatsapp"></i> <span data-i18n="btn_get_quote">Get Quote</span></button>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ════ DELIVERY ════ -->
+<div class="bg-light">
+<section id="delivery" class="section">
+  <div class="section-header">
+    <h2 class="section-title" data-i18n="del_title">Delivery Service</h2>
+    <p class="section-subtitle" data-i18n="del_subtitle">Fast and reliable delivery to your location</p>
+  </div>
+  <div class="delivery-grid">
+
+    <div class="del-card reveal">
+      <h3 data-i18n="del_h1">We Deliver to You!</h3>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-clock"></i></div><div><strong data-i18n="del_hours_lbl">Operating Hours</strong><span data-i18n="del_hours_val">10:00 AM – 10:00 PM Daily</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-truck"></i></div><div><strong data-i18n="del_time_lbl">Delivery Time</strong><span data-i18n="del_time_val">30–45 minutes average</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-map-marker-alt"></i></div><div><strong data-i18n="del_area_lbl">Coverage Area</strong><span data-i18n="del_area_val">Within Dar es Salaam</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-money-bill-wave"></i></div><div><strong data-i18n="del_fee_lbl">Delivery Fee</strong><span data-i18n="del_fee_val">TSh 3,000 – 7,000 (by location)</span></div></div>
+      <a class="btn btn-red" href="https://wa.me/255123456789?text=Habari!%20Nataka%20kuagiza%20chakula" target="_blank" rel="noopener" style="margin-top:1.5rem;border-radius:50px;">
+        <i class="fab fa-whatsapp"></i> <span data-i18n="btn_order_wa2">Order on WhatsApp</span>
+      </a>
+    </div>
+
+    <div class="del-card reveal">
+      <h3 data-i18n="del_h2">How to Order</h3>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-search"></i></div><div><strong data-i18n="del_step1_lbl">Browse Menu</strong><span data-i18n="del_step1_val">Choose your favourite dishes above</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-hand-pointer"></i></div><div><strong data-i18n="del_step2_lbl">Tap Order Button</strong><span data-i18n="del_step2_val">Opens WhatsApp with pre-filled message</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-check-circle"></i></div><div><strong data-i18n="del_step3_lbl">Confirm Details</strong><span data-i18n="del_step3_val">Share your location and delivery time</span></div></div>
+      <div class="info-row"><div class="info-ico"><i class="fas fa-smile"></i></div><div><strong data-i18n="del_step4_lbl">Enjoy Your Meal</strong><span data-i18n="del_step4_val">Hot, fresh food delivered to your door</span></div></div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ════ STATS ════ -->
+<div class="stats-wrap">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-num">5000+</div><div class="stat-lbl" data-i18n="stat1">Happy Customers</div></div>
+    <div class="stat-item reveal"><div class="stat-icon"><i class="fas fa-utensils"></i></div><div class="stat-num">50+</div><div class="stat-lbl" data-i18n="stat2">Menu Items</div></div>
+    <div class="stat-item reveal"><div class="stat-icon"><i class="fas fa-award"></i></div><div class="stat-num">10+</div><div class="stat-lbl" data-i18n="stat3">Years Experience</div></div>
+    <div class="stat-item reveal"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-num">4.8</div><div class="stat-lbl" data-i18n="stat4">Average Rating</div></div>
+  </div>
+</div>
+
+<!-- ════ TESTIMONIALS ════ -->
+<div class="testi-wrap">
+  <div class="section-header">
+    <h2 class="section-title" data-i18n="testi_title">What Our Customers Say</h2>
+    <p class="section-subtitle" data-i18n="testi_subtitle">Real reviews from real people</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <p class="testi-text" data-i18n="testi1_text">"Best African food in Dar! The Mbuzi Choma is absolutely incredible. Delivery always fast and food arrives hot. Highly recommended!"</p>
+      <div class="testi-author"><div class="avatar">JM</div><div><div class="author-name">John Mwangi</div><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <p class="testi-text" data-i18n="testi2_text">"I ordered the Family Package for a gathering — everyone loved it! Portions were generous and quality top-notch. Will definitely order again."</p>
+      <div class="testi-author"><div class="avatar">AN</div><div><div class="author-name">Amina Ndege</div><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <p class="testi-text" data-i18n="testi3_text">"Their Biryani Special is out of this world! Authentic flavours, perfectly cooked. The WhatsApp ordering makes it so convenient. 5 stars!"</p>
+      <div class="testi-author"><div class="avatar">PK</div><div><div class="author-name">Peter Kamau</div><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ FOOTER ════ -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h3>Kisinia Restaurant</h3>
+      <p data-i18n="footer_tagline">Ladha Bora za Kiafrika na Kimataifa</p>
+      <p data-i18n="footer_desc">Quality food delivered daily. Experience authentic African and International cuisine.</p>
+    </div>
+    <div class="footer-col">
+      <h3 data-i18n="footer_contact">Contact Us</h3>
+      <a class="footer-link" href="tel:+255123456789"><i class="fas fa-phone"></i>+255 123 456 789</a>
+      <a class="footer-link" href="https://wa.me/255123456789" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>+255 123 456 789</a>
+      <a class="footer-link" href="mailto:info@kisinia.co.tz"><i class="fas fa-envelope"></i>info@kisinia.co.tz</a>
+      <a class="footer-link" href="#"><i class="fas fa-map-marker-alt"></i>Dar es Salaam, Tanzania</a>
+    </div>
+    <div class="footer-col">
+      <h3 data-i18n="footer_hours">Business Hours</h3>
+      <p><strong data-i18n="footer_days">Monday – Sunday</strong></p>
+      <p><i class="fas fa-clock" style="color:var(--yellow);margin-right:.4rem;"></i>10:00 AM – 10:00 PM</p>
+      <p style="margin-top:.8rem;color:var(--yellow);font-weight:700;"><i class="fas fa-calendar-check" style="margin-right:.4rem;"></i><span data-i18n="footer_open">Open Every Day!</span></p>
+      <div class="socials">
+        <a class="soc-btn" href="https://instagram.com/kisinia_restaurant" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="soc-btn" href="https://wa.me/255123456789" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a class="soc-btn" href="https://facebook.com/kisinia" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a class="soc-btn" href="https://tiktok.com/@kisinia" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Kisinia Restaurant. <span data-i18n="footer_rights">All rights reserved.</span></p>
+    <p style="margin-top:.4rem;"><span data-i18n="footer_powered">Digital Menu Powered by</span> <a href="https://clickdigital.co.tz" target="_blank" rel="noopener">Click Digital</a></p>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a class="wa-float" href="https://wa.me/255123456789?text=Habari!%20Napenda%20kuorder%20kutoka%20Kisinia%20Restaurant" target="_blank" rel="noopener" aria-label="Order on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+/* ══════════════════════════════════
+   FULL TRANSLATION DICTIONARY
+══════════════════════════════════ */
+const DICT = {
+  en: {
+    nav_home:'Home', nav_about:'About', nav_menu:'Menu',
+    nav_packages:'Packages', nav_delivery:'Delivery', nav_contact:'Contact',
+    hero_title:'Karibu Kisinia Restaurant',
+    hero_tagline:'The Best African & International Flavors',
+    btn_view_menu:'View Menu', btn_order_now:'Order Now',
+    about_title:'About Us',
+    about_subtitle:'Quality food, exceptional service, delivered daily',
+    about_body:'At Kisinia Restaurant, we pride ourselves on serving the finest African and International cuisine with authentic flavors that remind you of home. Our skilled chefs prepare each dish with care, using fresh local ingredients and traditional recipes passed down through generations.',
+    feat1_title:'Quality Food',     feat1_body:'Fresh ingredients, authentic recipes, expertly prepared every day.',
+    feat2_title:'Open Daily',       feat2_body:'Serving you 7 days a week from 10:00 AM – 10:00 PM.',
+    feat3_title:'Fast Delivery',    feat3_body:'Quick and reliable delivery straight to your doorstep.',
+    feat4_title:'Made with Love',   feat4_body:'Every dish crafted with passion and traditional care.',
+    menu_title:'Our Menu', menu_subtitle:'Explore our delicious selection of meals',
+    cat_all:'All Items', cat_watu2:'Watu 2', cat_watu34:'Watu 3–4',
+    cat_mbuzi:'Mbuzi Menu', cat_special:'Special Dishes', cat_drinks:'Drinks',
+    badge_popular:'Popular', badge_best:'Best Seller', badge_chef:'Chef Special', badge_new:'New',
+    btn_order_wa:'Order via WhatsApp',
+    m1_name:'Wali na Kuku',           m1_desc:'Steamed rice with tender chicken, fresh vegetables and special sauce.',
+    m2_name:'Ugali na Nyama',         m2_desc:'Traditional ugali with grilled beef, served with vegetable stew.',
+    m3_name:'Pilau na Nyama',         m3_desc:'Aromatic spiced rice with tender meat, perfect for sharing.',
+    m4_name:'Wali wa Nazi na Samaki', m4_desc:'Coconut rice with fresh grilled fish, served with kachumbari.',
+    m5_name:'Mbuzi Choma (1kg)',      m5_desc:'Expertly grilled goat meat, tender and flavorful with traditional spices.',
+    m6_name:'Mchuzi wa Mbuzi',        m6_desc:'Rich goat stew cooked in aromatic spices, served with your choice of starch.',
+    m7_name:'Biryani Special',        m7_desc:'Fragrant layered rice with spiced meat, aromatic herbs and raita.',
+    m8_name:'Ndizi na Nyama',         m8_desc:'Traditional East African plantains cooked with tender beef.',
+    m9_name:'Chips Mayai Special',    m9_desc:'Tanzanian classic — french fries mixed with eggs and spices.',
+    m10_name:'Fresh Juices',          m10_desc:'Freshly squeezed passion fruit, orange, or watermelon juice.',
+    m11_name:'Soft Drinks',           m11_desc:'Coca-Cola, Fanta, Sprite and other popular beverages.',
+    m12_name:'Chai Tangawizi',        m12_desc:'Traditional Swahili spiced tea with ginger and aromatic spices.',
+    pkg_title:'Special Packages', pkg_subtitle:'Perfect for groups, events & celebrations',
+    pkg1_name:'Family Package', pkg2_name:'Group Feast', pkg3_name:'Event Catering',
+    pkg1_f1:'Pilau for 6 people',    pkg1_f2:'2kg Nyama Choma',    pkg1_f3:'Kachumbari & Salads',
+    pkg1_f4:'6 Soft Drinks',         pkg1_f5:'Free Delivery',
+    pkg2_f1:'Biryani for 10 people', pkg2_f2:'3kg Mbuzi Choma',   pkg2_f3:'Mixed Vegetables',
+    pkg2_f4:'10 Fresh Juices',       pkg2_f5:'Dessert Included',   pkg2_f6:'Free Delivery',
+    pkg3_f1:'Customized Menu',       pkg3_f2:'20+ Guests',         pkg3_f3:'Professional Service',
+    pkg3_f4:'Multiple Courses',      pkg3_f5:'Beverages Included', pkg3_f6:'Setup & Cleanup',
+    btn_order_pkg:'Order Package', btn_get_quote:'Get Quote',
+    del_title:'Delivery Service', del_subtitle:'Fast and reliable delivery to your location',
+    del_h1:'We Deliver to You!', del_h2:'How to Order',
+    del_hours_lbl:'Operating Hours',  del_hours_val:'10:00 AM – 10:00 PM Daily',
+    del_time_lbl:'Delivery Time',     del_time_val:'30–45 minutes average',
+    del_area_lbl:'Coverage Area',     del_area_val:'Within Dar es Salaam',
+    del_fee_lbl:'Delivery Fee',       del_fee_val:'TSh 3,000 – 7,000 (by location)',
+    del_step1_lbl:'Browse Menu',      del_step1_val:'Choose your favourite dishes above',
+    del_step2_lbl:'Tap Order Button', del_step2_val:'Opens WhatsApp with pre-filled message',
+    del_step3_lbl:'Confirm Details',  del_step3_val:'Share your location and delivery time',
+    del_step4_lbl:'Enjoy Your Meal',  del_step4_val:'Hot, fresh food delivered to your door',
+    btn_order_wa2:'Order on WhatsApp',
+    stat1:'Happy Customers', stat2:'Menu Items', stat3:'Years Experience', stat4:'Average Rating',
+    testi_title:'What Our Customers Say', testi_subtitle:'Real reviews from real people',
+    testi1_text:'"Best African food in Dar! The Mbuzi Choma is absolutely incredible. Delivery always fast and food arrives hot. Highly recommended!"',
+    testi2_text:'"I ordered the Family Package for a gathering — everyone loved it! Portions were generous and quality top-notch. Will definitely order again."',
+    testi3_text:'"Their Biryani Special is out of this world! Authentic flavours, perfectly cooked. The WhatsApp ordering makes it so convenient. 5 stars!"',
+    footer_tagline:'Ladha Bora za Kiafrika na Kimataifa',
+    footer_desc:'Quality food delivered daily. Experience authentic African and International cuisine.',
+    footer_contact:'Contact Us', footer_hours:'Business Hours',
+    footer_days:'Monday – Sunday', footer_open:'Open Every Day!',
+    footer_rights:'All rights reserved.', footer_powered:'Digital Menu Powered by',
+  },
+
+  sw: {
+    nav_home:'Nyumbani', nav_about:'Kuhusu', nav_menu:'Menyu',
+    nav_packages:'Paketi', nav_delivery:'Uwasilishaji', nav_contact:'Wasiliana',
+    hero_title:'Karibu Kisinia Restaurant',
+    hero_tagline:'Ladha Bora za Kiafrika na Kimataifa',
+    btn_view_menu:'Angalia Menyu', btn_order_now:'Agiza Sasa',
+    about_title:'Kuhusu Sisi',
+    about_subtitle:'Chakula bora, huduma ya kipekee, tunasafirisha kila siku',
+    about_body:'Katika Kisinia Restaurant, tunajivunia kutoa vyakula bora vya Kiafrika na Kimataifa kwa ladha halisi zinazokukumbusha nyumbani. Wapishi wetu mahiri hutayarisha kila sahani kwa uangalifu, wakitumia malighafi safi za kienyeji na mapishi ya jadi yaliyopitishwa kwa vizazi.',
+    feat1_title:'Chakula Bora',          feat1_body:'Malighafi safi, mapishi halisi, yaliyoandaliwa kwa ujuzi kila siku.',
+    feat2_title:'Tunafungua Kila Siku',  feat2_body:'Tunakuhudumia siku 7 kwa wiki, 10:00 Asubuhi hadi 10:00 Jioni.',
+    feat3_title:'Uwasilishaji wa Haraka',feat3_body:'Uwasilishaji wa haraka na wa kuaminika hadi mlangoni mwako.',
+    feat4_title:'Tunapika kwa Moyo',     feat4_body:'Kila sahani inatengenezwa kwa upendo na utunzaji wa jadi.',
+    menu_title:'Menyu Yetu', menu_subtitle:'Gundua vyakula vyetu vitamu vya aina mbalimbali',
+    cat_all:'Vyote', cat_watu2:'Watu 2', cat_watu34:'Watu 3–4',
+    cat_mbuzi:'Menyu ya Mbuzi', cat_special:'Vyakula Maalum', cat_drinks:'Vinywaji',
+    badge_popular:'Maarufu', badge_best:'Kinachouzwa Zaidi', badge_chef:'Maalum ya Mpishi', badge_new:'Kipya',
+    btn_order_wa:'Agiza kwa WhatsApp',
+    m1_name:'Wali na Kuku',           m1_desc:'Wali wa mvuke na kuku laini, mboga safi na mchuzi maalum.',
+    m2_name:'Ugali na Nyama',         m2_desc:'Ugali wa jadi na nyama ya ng\'ombe iliyochomwa, pamoja na mchuzi wa mboga.',
+    m3_name:'Pilau na Nyama',         m3_desc:'Pilau yenye harufu nzuri na nyama laini, bora kwa watu wengi.',
+    m4_name:'Wali wa Nazi na Samaki', m4_desc:'Wali wa nazi na samaki safi wa kuchemsha, pamoja na kachumbari.',
+    m5_name:'Mbuzi Choma (1kg)',      m5_desc:'Mbuzi iliyochomwa kwa ujuzi, laini na yenye ladha ya viungo vya jadi.',
+    m6_name:'Mchuzi wa Mbuzi',        m6_desc:'Mchuzi mzito wa mbuzi uliopikwa kwa viungo vizuri, pamoja na wali au ugali.',
+    m7_name:'Biryani Maalum',         m7_desc:'Biryani yenye harufu na nyama iliyokolezwa, mimea ya kupendeza na raita.',
+    m8_name:'Ndizi na Nyama',         m8_desc:'Sahani ya jadi ya Afrika Mashariki, ndizi zilizopikwa na nyama laini.',
+    m9_name:'Chips Mayai Maalum',     m9_desc:'Kitafunio maarufu cha Tanzania — chips zilizochanganywa na mayai na viungo.',
+    m10_name:'Juisi Mbichi',          m10_desc:'Juisi safi ya maracuja, chungwa au tikiti maji.',
+    m11_name:'Vinywaji Baridi',       m11_desc:'Coca-Cola, Fanta, Sprite na vinywaji vingine maarufu.',
+    m12_name:'Chai Tangawizi',        m12_desc:'Chai ya jadi ya Kiswahili yenye tangawizi na viungo vya kupendeza.',
+    pkg_title:'Paketi Maalum', pkg_subtitle:'Bora kwa vikundi, matukio na sherehe za aina zote',
+    pkg1_name:'Paketi ya Familia', pkg2_name:'Karamu ya Kikundi', pkg3_name:'Huduma ya Matukio',
+    pkg1_f1:'Pilau kwa watu 6',      pkg1_f2:'Nyama Choma 2kg',     pkg1_f3:'Kachumbari na Saladi',
+    pkg1_f4:'Vinywaji 6',            pkg1_f5:'Uwasilishaji Bure',
+    pkg2_f1:'Biryani kwa watu 10',   pkg2_f2:'Mbuzi Choma 3kg',     pkg2_f3:'Mboga Mchanganyiko',
+    pkg2_f4:'Juisi Mbichi 10',       pkg2_f5:'Dessert Imejumuishwa', pkg2_f6:'Uwasilishaji Bure',
+    pkg3_f1:'Menyu ya Kibinafsi',    pkg3_f2:'Wageni 20+',           pkg3_f3:'Huduma ya Kitaalamu',
+    pkg3_f4:'Vyakula Vingi',         pkg3_f5:'Vinywaji Vimejumuishwa', pkg3_f6:'Kuandaa na Kusafisha',
+    btn_order_pkg:'Agiza Paketi', btn_get_quote:'Pata Bei',
+    del_title:'Huduma ya Uwasilishaji', del_subtitle:'Uwasilishaji wa haraka na wa kuaminika mahali pako',
+    del_h1:'Tunasafirisha Kwako!', del_h2:'Jinsi ya Kuagiza',
+    del_hours_lbl:'Masaa ya Kazi',          del_hours_val:'10:00 Asubuhi – 10:00 Jioni Kila Siku',
+    del_time_lbl:'Muda wa Kusafirisha',     del_time_val:'Dakika 30–45 wastani',
+    del_area_lbl:'Maeneo Tunayofika',       del_area_val:'Ndani ya Dar es Salaam',
+    del_fee_lbl:'Ada ya Usafirishaji',      del_fee_val:'TSh 3,000 – 7,000 (kulingana na eneo)',
+    del_step1_lbl:'Angalia Menyu',          del_step1_val:'Chagua vyakula unavyopenda hapo juu',
+    del_step2_lbl:'Bonyeza Kitufe',         del_step2_val:'Itafungua WhatsApp na ujumbe uliowekwa tayari',
+    del_step3_lbl:'Thibitisha Maelezo',     del_step3_val:'Shiriki eneo lako na muda wa uwasilishaji',
+    del_step4_lbl:'Furahia Chakula Chako',  del_step4_val:'Chakula cha moto na safi hadi mlangoni mwako',
+    btn_order_wa2:'Agiza kwenye WhatsApp',
+    stat1:'Wateja Wenye Furaha', stat2:'Aina za Vyakula', stat3:'Miaka ya Uzoefu', stat4:'Wastani wa Ukadiriaji',
+    testi_title:'Wateja Wetu Wanasema Nini', testi_subtitle:'Maoni halisi kutoka kwa watu halisi',
+    testi1_text:'"Chakula bora cha Kiafrika Dar! Mbuzi Choma ni ya ajabu kabisa. Uwasilishaji daima wa haraka na chakula hufika moto. Napendekeza sana!"',
+    testi2_text:'"Niliagiza Paketi ya Familia kwa mkusanyiko — kila mtu alipenda! Sehemu zilikuwa kubwa na ubora wa hali ya juu. Nitaagiza tena bila shaka."',
+    testi3_text:'"Biryani Maalum yao ni ya kipekee! Ladha halisi, iliyopikwa vizuri. Mfumo wa kuagiza kwa WhatsApp ni rahisi sana. Nyota 5!"',
+    footer_tagline:'Ladha Bora za Kiafrika na Kimataifa',
+    footer_desc:'Chakula bora kinachotolewa kila siku. Pata vyakula halisi vya Kiafrika na Kimataifa.',
+    footer_contact:'Wasiliana Nasi', footer_hours:'Masaa ya Kazi',
+    footer_days:'Jumatatu – Jumapili', footer_open:'Tunafungua Kila Siku!',
+    footer_rights:'Haki zote zimehifadhiwa.', footer_powered:'Menyu ya Kidijitali Inatolewa na',
+  }
+};
+
+/* ── Language state ── */
+let lang = 'en';
+
+function applyLang() {
+  const d = DICT[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] !== undefined) el.textContent = d[k];
+  });
+  document.getElementById('langLabel').textContent = lang === 'en' ? 'Swahili' : 'English';
+  document.documentElement.lang = lang;
+}
+
+document.getElementById('langBtn').addEventListener('click', () => {
+  lang = lang === 'en' ? 'sw' : 'en';
+  applyLang();
+});
+
+/* ── Mobile hamburger ── */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('navMenu');
+
+hamburger.addEventListener('click', () => {
+  const open = navMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+  hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+});
+
+/* close on nav link tap */
+document.querySelectorAll('.nav-link').forEach(a => {
+  a.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+  });
+});
+
+/* ── Navbar scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+/* ── Menu filter ── */
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.menu-card').forEach(card => {
+      card.classList.toggle('hidden', cat !== 'all' && card.dataset.cat !== cat);
+    });
+  });
+});
+
+/* ── WhatsApp order ── */
+function orderWA(item) {
+  const msg = encodeURIComponent(`Habari! Napenda kuorder: ${item}`);
+  window.open(`https://wa.me/255123456789?text=${msg}`, '_blank');
+}
+
+/* ── Scroll reveal ── */
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+/* ── Smooth anchor scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    const offset = document.querySelector('.navbar').offsetHeight;
+    window.scrollTo({ top: t.offsetTop - offset, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
